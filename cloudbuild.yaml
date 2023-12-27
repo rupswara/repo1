@@ -1,0 +1,21 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/rupali291123/test-image', '.']
+
+  # Push the built image to Google Container Registry (GCR)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/rupali291123/test-image']
+
+  # Deploy the image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'self-service'
+      - '--image'
+      - 'gcr.io/rupali291123/test-image'
+      - '--platform'
+      - 'managed'
+      - '--region'
+      - 'asia south 1'
